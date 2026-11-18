@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>飞书登录演示</title>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>飞书登录演示</h1>
+        <p class="sub">
+          扫码获取应用凭证 → 用户授权拿 refresh_token → 调用飞书接口
+        </p>
+      </header>
+
+      <!-- 第 1 步 -->
+      <section class="card" id="step1">
+        <div class="card-head">
+          <span class="badge">1</span>
+          <h2>获取应用凭证</h2>
+          <span class="pill" id="pill1">待开始</span>
+        </div>
+        <p class="desc">
+          第 1 次确认（共 2 次）：用<strong>手机飞书扫码</strong>，或在<strong>本机浏览器</strong>打开链接。
+          飞书页面会让你选择「创建飞书应用」或「使用已有应用」，无论选哪个，
+          本演示都会拿到对应的 App ID 与 App Secret（凭证只保存在服务端）。
+          这一步只产生<strong>应用凭证</strong>；你的用户 token 在第 2 步授权时发放。
+          <br />
+          <span class="muted">
+            真的只想确认一次？在 backend/.env 里填好 LARK_APP_ID / LARK_APP_SECRET，本步会自动跳过。
+          </span>
+        </p>
+        <button id="btn-app" class="primary">显示二维码与链接</button>
+
+        <div class="qr-wrap" id="qr1-wrap" hidden>
+          <div id="qr1" class="qr"></div>
+          <div class="qr-side">
+            <p class="hint">用手机飞书扫一扫</p>
+            <p class="code">或访问链接并输入口令：<code id="uc1"></code></p>
+            <a id="link1" class="open-btn" target="_blank" rel="noreferrer">在本机浏览器打开（不必用手机）</a>
+            <p class="status" id="status1">等待扫码…</p>
+          </div>
+        </div>
+
+        <div class="result" id="app-result" hidden>
+          <div class="kv">
+            <span>App ID</span>
+            <code id="app-id" class="token"></code>
+            <button id="btn-copy-id" class="tiny">复制</button>
+          </div>
+          <div class="kv">
+            <span>App Secret</span>
+            <code id="app-secret" class="token"></code>
+            <button id="btn-copy-secret" class="tiny">复制</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 第 2 步 -->
+      <section class="card locked" id="step2">
+        <div class="card-head">
+          <span class="badge">2</span>
+          <h2>飞书登录授权</h2>
+          <span class="pill" id="pill2">待开始</span>
+        </div>
+        <p class="desc" id="desc2">
+          第 2 次确认（也是最后一次）：把你的账号权限授予该应用。
+          在<strong>本机浏览器</strong>打开授权页点一次「确认授权」即可，不必再用手机扫码。
+          确认后后端会拿到 <code>user_access_token</code> 与 <strong>refresh_token</strong>。
+          申请的权限点：<code id="scope-hint"></code>
+        </p>
+        <button id="btn-login" class="primary" disabled>开始授权</button>
+
+        <div class="qr-wrap" id="qr2-wrap" hidden>
+          <div id="qr2" class="qr" hidden></div>
+          <div class="qr-side">
+            <p class="hint" id="hint2">在浏览器里点一次「确认授权」即可，不必用手机</p>
+            <a id="link2" class="open-btn" target="_blank" rel="noreferrer">在本机浏览器打开并确认</a>
+            <p class="code">或访问链接并输入口令：<code id="uc2"></code></p>
+            <button id="btn-qr2" class="link-btn">改用手机飞书扫码 →</button>
+            <p class="status" id="status2">等待授权…</p>
+          </div>
+        </div>
+
+        <div class="result" id="login-result" hidden>
+          <div class="user" id="user-box"></div>
+          <div class="kv"><span>open_id</span><code id="open-id"></code></div>
+          <div class="kv"><span>已授予权限</span><div class="scopes" id="scopes"></div></div>
+          <div class="kv">
+            <span>refresh_token</span>
+            <code id="refresh-token" class="token"></code>
+            <button id="btn-copy-rt" class="tiny">复制</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 第 3 步 -->
+      <section class="card locked" id="step3">
+        <div class="card-head">
+          <span class="badge">3</span>
+          <h2>调用飞书接口</h2>
+          <span class="pill" id="pill3">待开始</span>
+        </div>
+        <p class="desc">
+          用拿到的 <code>user_access_token</code> 真实调用飞书
+          <code>/open-apis/authen/v1/user_info</code>；
+          「刷新 access_token」则用 <code>refresh_token</code> 换新凭证。
+        </p>
+        <div class="btn-row">
+          <button id="btn-me" class="primary" disabled>调用获取用户信息</button>
+          <button id="btn-refresh" class="ghost" disabled>刷新 access_token</button>
+        </div>
+        <p class="status" id="status3"></p>
+        <pre id="api-out" class="out" hidden></pre>
+      </section>
+
+      <footer>
+        <button id="btn-reset" class="link-btn">重置本次演示</button>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

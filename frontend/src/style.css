@@ -1,0 +1,338 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1f2329;
+  --muted: #8f959e;
+  --line: #dee0e3;
+  --brand: #3370ff;
+  --brand-dark: #245bdb;
+  --ok: #34c724;
+  --err: #f54a45;
+  --busy: #ff8800;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 作者样式里的 display 会盖掉 hidden 属性的 UA 规则，这里统一兜住 */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.6 -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+}
+
+header h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+header .sub {
+  margin: 0 0 28px;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  transition: opacity 0.2s;
+}
+
+.card.locked {
+  opacity: 0.5;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: 16px;
+  flex: 1;
+}
+
+.badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.pill {
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: #eef0f3;
+  color: var(--muted);
+  flex: none;
+}
+
+.pill.ok {
+  background: #e8f8e6;
+  color: #1c8a12;
+}
+
+.pill.err {
+  background: #fdeceb;
+  color: #c9352f;
+}
+
+.pill.busy {
+  background: #fff3e0;
+  color: #b36100;
+}
+
+.desc {
+  color: #5a5f66;
+  margin: 0 0 14px;
+}
+
+code {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  background: #f2f3f5;
+  padding: 1px 6px;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 7px 16px;
+  transition: background 0.15s;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.primary:not(:disabled):hover {
+  background: var(--brand-dark);
+}
+
+.ghost {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.ghost:not(:disabled):hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.tiny {
+  padding: 2px 10px;
+  font-size: 12px;
+  background: #eef0f3;
+  color: #5a5f66;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* 二维码区 */
+.qr-wrap {
+  display: flex;
+  gap: 22px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  align-items: flex-start;
+}
+
+.qr {
+  flex: none;
+  line-height: 0;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.qr-side {
+  flex: 1;
+  min-width: 0;
+}
+
+.qr-side .hint {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.qr-side .code {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.link {
+  color: var(--brand);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* 「在浏览器打开」直达按钮：强调不必扫码的那条路径 */
+.open-btn {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.open-btn:hover {
+  background: var(--brand-dark);
+}
+
+.status {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status.ok {
+  color: #1c8a12;
+}
+
+.status.err {
+  color: #c9352f;
+}
+
+/* 结果区 */
+.result {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+}
+
+.kv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.kv > span:first-child {
+  width: 88px;
+  color: var(--muted);
+  flex: none;
+  font-size: 13px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.user img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user div {
+  display: flex;
+  flex-direction: column;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.scopes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.scope {
+  background: #eaf1ff;
+  color: #245bdb;
+}
+
+/* 凭证值：长字符串横向滚动，不撑破布局 */
+.token {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: inline-block;
+  overflow-x: auto;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.token.long {
+  max-height: 1.8em;
+}
+
+.out {
+  margin-top: 14px;
+  background: #1f2329;
+  color: #d7dae0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  overflow-x: auto;
+  max-height: 340px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 26px;
+}
